@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plum Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@800&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+            background-color: #B5B4B6;
+        }
+
+        .font-serif-logo {
+            font-family: 'Playfair Display', serif;
+            letter-spacing: -0.02em;
+        }
+
+        .text-plum-dark { color: #611C6B; }
+        .bg-plum-dark { background-color: #611C6B; }
+        .border-plum-dark { border-color: #611C6B; }
+        
+        .text-plum-green { color: #7AA641; }
+
+        .btn-slate { background-color: #3F485E; }
+        .btn-slate:hover { background-color: #2F374A; }
+        .btn-checkout { background-color: #652C66; }
+        .btn-checkout:hover { background-color: #4D214E; }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #C1C1C1;
+            border-radius: 10px;
+            border: 2px solid #F9FAFB;
+        }
+
+        .modal-backdrop {
+            background-color: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(2px);
+        }
+
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+            -webkit-appearance: none; 
+            margin: 0; 
+        }
+    </style>
+</head>
+<body class="flex h-screen w-screen antialiased text-gray-800">
+
+    <!-- LEFT MAIN AREA -->
+    <main class="flex-1 relative flex flex-col justify-center items-center h-full z-0">
+        <div class="absolute top-8 left-8 text-2xl font-bold text-[#374151]">Start</div>
+        <div class="absolute top-[20%] right-[10%] w-[42px] h-[42px] rounded-full bg-gradient-to-tr from-[#310A7C] to-[#B732D6] shadow-lg"></div>
+
+        <div class="flex flex-col items-center">
+            <div class="flex items-end gap-3 mb-6">
+                <svg width="100" height="110" viewBox="0 0 100 110" fill="none" xmlns="http://www.w3.org/2000/svg" class="mb-1">
+                    <path d="M60 15 C75 10, 85 25, 70 35 C60 25, 55 15, 60 15 Z" fill="#7AA641" />
+                    <path d="M45 35 C20 35, 10 55, 15 75 C20 95, 45 105, 65 95 C85 85, 90 60, 75 45 C70 40, 60 38, 50 40 C45 41, 40 45, 38 50 C36 55, 38 60, 42 62 C46 64, 52 62, 54 58 C56 55, 56 52, 53 50" fill="#611C6B" stroke="#611C6B" stroke-width="4" stroke-linecap="round"/>
+                </svg>
+                <span class="text-[90px] leading-none font-serif-logo font-extrabold text-[#111111] tracking-tight">plum</span>
+            </div>
+            <h1 class="text-[28px] leading-[1.3] text-center font-medium text-[#222222] mt-4 max-w-[400px]">
+                Designed to Increase Your<br>Restaurant's Sales and Profits
+            </h1>
+        </div>
+
+        <div class="absolute bottom-6 left-6 flex items-end gap-3">
+            <button onclick="openManagerModal()" class="w-[42px] h-[42px] bg-black rounded flex items-center justify-center text-white hover:bg-gray-800 transition-colors">
+                <i data-lucide="more-horizontal" class="w-5 h-5"></i>
+            </button>
+            <button class="w-[42px] h-[42px] bg-[#B0B397] rounded flex items-center justify-center text-[#4A4A4A] hover:bg-[#A3A788] transition-colors">
+                <div class="flex items-end gap-[3px] h-5">
+                    <div class="w-[4px] h-[60%] bg-[#4A4A4A] rounded-sm"></div>
+                    <div class="w-[4px] h-[100%] bg-[#4A4A4A] rounded-sm"></div>
+                    <div class="w-[4px] h-[80%] bg-[#4A4A4A] rounded-sm"></div>
+                </div>
+            </button>
+            <button class="px-7 h-[42px] bg-[#3B284A] text-[#D8C7E2] rounded text-[15px] font-medium hover:bg-[#2A1C35] transition-colors">
+                Next
+            </button>
+            <button class="w-[64px] h-[64px] bg-[#B5B4B6] rounded border-[2px] border-[#3B284A] ml-2 flex flex-col items-center justify-center p-1 relative overflow-hidden shadow-sm hover:opacity-90 transition-opacity">
+                <div class="w-full h-full bg-[#E5E7EB] rounded-sm flex flex-col items-center justify-center relative">
+                     <span class="text-[6px] font-serif-logo font-bold text-black mt-1">plum</span>
+                     <div class="absolute top-1 right-1 w-2 h-2 rounded-full bg-purple-600"></div>
+                </div>
+            </button>
+        </div>
+    </main>
+
+    <!-- RIGHT CART PANEL -->
+    <aside class="w-[480px] bg-white flex flex-col shadow-[-10px_0_30px_rgba(0,0,0,0.08)] z-10 h-full">
+        <div class="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
+            <h2 class="text-[22px] font-bold text-[#111111]">Cart</h2>
+            <div class="flex items-center gap-4">
+                <button onclick="toggleModal(true)" class="border border-[#611C6B] text-[#611C6B] px-4 py-[6px] rounded-md text-[13px] font-medium hover:bg-purple-50 transition-colors flex items-center gap-1.5 shadow-sm">
+                    Find Products
+                </button>
+                <button class="text-gray-400 hover:text-gray-700">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="flex border-b border-gray-200">
+            <button class="flex-1 py-3 text-[#9CA3AF] text-[13px] font-medium flex items-center justify-center gap-2 border-r border-gray-100 bg-[#FBFBFB]">
+                Empty Cart <i data-lucide="list-filter" class="w-4 h-4 opacity-70"></i>
+            </button>
+            <button class="flex-1 py-3 text-[#9CA3AF] text-[13px] font-medium bg-white">
+                Processing
+            </button>
+        </div>
+
+        <div class="grid grid-cols-[1fr_1fr_120px] border-b border-gray-100">
+            <div class="p-3 pl-5 border-r border-gray-100">
+                <div class="flex items-center gap-1.5 text-[10px] uppercase text-gray-500 font-bold mb-0.5 tracking-wide">
+                    <i data-lucide="layout-grid" class="w-3.5 h-3.5"></i> Total CPO
+                </div>
+                <div class="text-[17px] text-[#111111] font-bold">$940.53</div>
+            </div>
+            <div class="p-3 pl-4 border-r border-gray-100">
+                <div class="flex items-center gap-1.5 text-[10px] uppercase text-gray-500 font-bold mb-0.5 tracking-wide">
+                    <i data-lucide="dollar-sign" class="w-3.5 h-3.5"></i> Commission
+                </div>
+                <div class="text-[17px] text-[#111111] font-bold">$282.16 <span class="text-[10px] text-gray-400 font-medium">/ MO</span></div>
+            </div>
+            <div class="p-3 pl-4">
+                <div class="flex items-center gap-1.5 text-[10px] uppercase text-gray-500 font-bold mb-0.5 tracking-wide">
+                    <i data-lucide="calendar" class="w-3.5 h-3.5"></i> Recovery
+                </div>
+                <div class="text-[17px] text-[#111111] font-bold">3 <span class="text-[10px] text-gray-400 font-medium uppercase">Months</span></div>
+            </div>
+        </div>
+
+        <div class="flex-1 overflow-y-auto bg-white py-1" id="cart-items">
+            <!-- Items injected by JS -->
+        </div>
+
+        <div class="px-5 py-4 bg-white border-t border-gray-100">
+            <div class="mb-4">
+                <h4 class="text-[13px] font-bold text-[#111111] mb-1">Shipping Address:</h4>
+                <button class="text-[#8473A7] text-[12px] flex items-center gap-1 hover:underline">
+                    Address not found, click to add shipping info <i data-lucide="pencil" class="w-3 h-3"></i>
+                </button>
+            </div>
+
+            <div class="grid grid-cols-4 gap-2.5 mb-5">
+                <button class="btn-slate text-white text-[11px] font-semibold py-2.5 rounded shadow-sm">Present Cart</button>
+                <button onclick="openNewQuoteSummary()" class="btn-slate text-white text-[11px] font-semibold py-2.5 rounded shadow-sm">Quote</button>
+                <button id="proposal-btn" class="bg-gray-300 text-gray-500 cursor-not-allowed text-[11px] font-semibold py-2.5 rounded shadow-sm transition-colors" disabled title="Quote must be approved first">Proposal</button>
+                <button class="btn-checkout text-white text-[11px] font-semibold py-2.5 rounded shadow-sm">Checkout</button>
+            </div>
+
+            <div class="space-y-[5px] text-[12px]">
+                <div class="flex justify-between items-center text-gray-600">
+                    <span>Down Payment Subtotal</span>
+                    <span id="dp-subtotal" class="text-gray-900">$0.00</span>
+                </div>
+                <div class="flex justify-between items-center text-gray-600">
+                    <span>Down Payment Discount</span>
+                    <span class="text-gray-900">-$0.00</span>
+                </div>
+                <div class="flex justify-between items-center text-gray-600">
+                    <span>Monthly Subtotal</span>
+                    <span id="monthly-subtotal" class="text-gray-900">$422.92</span>
+                </div>
+                <div class="flex justify-between items-center text-gray-600">
+                    <span>Monthly Discount</span>
+                    <span class="text-gray-900">-$0.00</span>
+                </div>
+                <div class="flex justify-between items-center text-gray-600">
+                    <span>Configuration Fee</span>
+                    <span class="text-gray-900">$0.00</span>
+                </div>
+                
+                <div class="w-full h-px bg-gray-100 my-2.5"></div>
+                
+                <div class="flex justify-between items-center text-[14px]">
+                    <span class="font-bold text-[#111111]">Total Due today</span>
+                    <span id="total-today" class="font-bold text-[#111111]">$0.00</span>
+                </div>
+                <div class="flex justify-between items-center text-[15px] mt-0.5">
+                    <span class="font-bold text-[#652C66]">Total Monthly Price</span>
+                    <span id="total-monthly" class="font-bold text-[#652C66]">$422.92</span>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- PRODUCT SELECTION MODAL -->
+    <div id="product-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 modal-backdrop">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-3xl max-h-[85vh] flex flex-col overflow-hidden animate-in fade-in duration-200">
+            <div class="p-5 border-b border-gray-100 flex justify-between items-center bg-white">
+                <div>
+                    <h3 class="text-xl font-bold text-gray-900">Add Products</h3>
+                    <p class="text-gray-500 text-sm mt-0.5">Select items to add to your cart</p>
+                </div>
+                <button onclick="toggleModal(false)" class="text-gray-400 hover:text-gray-800 transition-colors p-2 rounded-full hover:bg-gray-100">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            
+            <div class="overflow-y-auto p-5 grid grid-cols-1 sm:grid-cols-2 gap-4 bg-gray-50 flex-1" id="available-products">
+                <!-- Products injected by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- QUOTE HISTORY MODAL (Compact List View) -->
+    <div id="quote-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 modal-backdrop">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[85vh] flex flex-col overflow-hidden animate-in fade-in duration-200">
+            <div class="p-5 border-b border-gray-100 flex justify-between items-center bg-white shrink-0">
+                <div class="flex items-center gap-3">
+                    <button onclick="openNewQuoteSummary()" class="text-gray-400 hover:text-[#611C6B] transition-colors p-1.5 rounded-full hover:bg-purple-50">
+                        <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                    </button>
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-900">Quotes</h3>
+                        <p class="text-gray-500 text-sm mt-0.5">View previously sent quotes</p>
+                    </div>
+                </div>
+                <button onclick="closeQuoteHistory()" class="text-gray-400 hover:text-gray-800 transition-colors p-2 rounded-full hover:bg-gray-100">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <div class="overflow-y-auto p-5 bg-gray-50 flex-1">
+                <div class="space-y-3" id="quote-history-list">
+                    <!-- Quotes injected by JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- QUOTE SUMMARY / SEND MODAL (Detailed View) -->
+    <div id="quote-summary-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 modal-backdrop">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[85vh] flex flex-col overflow-hidden animate-in fade-in duration-200" id="quote-summary-content">
+            <!-- Dynamic Content Injected via JS -->
+        </div>
+    </div>
+
+    <!-- CONFIRMATION MODAL -->
+    <div id="confirmation-modal" class="hidden fixed inset-0 z-[60] flex items-center justify-center p-4 modal-backdrop">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-sm flex flex-col overflow-hidden animate-in zoom-in-95 duration-200">
+            <div class="p-6 text-center">
+                <div class="w-12 h-12 rounded-full bg-purple-50 text-[#611C6B] flex items-center justify-center mx-auto mb-4">
+                    <i data-lucide="send" class="w-6 h-6"></i>
+                </div>
+                <h3 class="text-lg font-bold text-gray-900 mb-2">Confirm Send</h3>
+                <p class="text-sm text-gray-500">Are you sure you want to send this quote to the customer?</p>
+            </div>
+            <div class="p-4 bg-gray-50 border-t border-gray-100 flex gap-3">
+                <button onclick="closeConfirmation()" class="flex-1 px-4 py-2.5 bg-white border border-gray-300 text-gray-700 font-semibold rounded-md hover:bg-gray-50 transition-colors shadow-sm text-[13px]">
+                    Cancel
+                </button>
+                <button onclick="confirmAction()" class="flex-1 px-4 py-2.5 bg-[#611C6B] text-white font-semibold rounded-md hover:bg-[#4D214E] transition-colors shadow-sm text-[13px]">
+                    Yes, Send
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MANAGER APPROVAL MODAL -->
+    <div id="manager-modal" class="hidden fixed inset-0 z-[70] flex items-center justify-center p-4 modal-backdrop">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-lg flex flex-col overflow-hidden animate-in fade-in duration-200">
+            <div class="p-5 border-b border-gray-100 flex justify-between items-center bg-white">
+                <div>
+                    <h3 class="text-xl font-bold text-gray-900">Manager Approvals</h3>
+                    <p class="text-gray-500 text-sm mt-0.5">Review and approve pending quotes</p>
+                </div>
+                <button onclick="closeManagerModal()" class="text-gray-400 hover:text-gray-800 transition-colors p-2 rounded-full hover:bg-gray-100">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <div class="p-5 bg-gray-50 flex-1 overflow-y-auto max-h-[60vh]">
+                <div class="space-y-3" id="manager-approvals-list">
+                    <!-- Injected by JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOP RIGHT NOTIFICATION -->
+    <div id="top-notification" class="fixed top-5 right-5 transform -translate-y-20 opacity-0 transition-all duration-400 bg-white border border-gray-200 text-gray-800 px-5 py-4 rounded-lg shadow-xl flex items-start gap-3 z-[100] pointer-events-none max-w-sm">
+        <div class="mt-0.5 text-blue-500">
+            <i data-lucide="bell" class="w-5 h-5"></i>
+        </div>
+        <div>
+            <h4 class="text-sm font-bold text-gray-900">Approval Required</h4>
+            <p class="text-xs text-gray-500 mt-1">Notification sent to manager for quote approval.</p>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="fixed bottom-5 right-5 transform translate-y-20 opacity-0 transition-all duration-300 bg-gray-900 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-3 z-50 pointer-events-none">
+        <i data-lucide="check-circle" class="w-5 h-5 text-[#7AA641]"></i>
+        <span id="toast-message" class="text-sm font-medium">Action successful</span>
+    </div>
+
+    <script>
+        // Exact Product Data from Image
+        const products = [
+            { id: 1, name: 'Cash Drawer', category: '', today: 0.00, monthly: 6.99, img: 'https://images.unsplash.com/photo-1556742049-0ad7456a70ee?auto=format&fit=crop&q=80&w=150', showCategory: false },
+            { id: 2, name: 'Router', category: 'Router', today: 0.00, monthly: 34.99, img: 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&q=80&w=150', showCategory: true },
+            { id: 3, name: 'Setup and Software Maintenance', category: '(Services)', today: 0.00, monthly: 100.00, img: 'https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&q=80&w=150', showCategory: true },
+            { id: 4, name: 'Plum Third-Party Ordering', category: 'Plum Third-Party Ordering', today: 0.00, monthly: 49.99, img: 'https://images.unsplash.com/photo-1526367790999-0150786486a2?auto=format&fit=crop&q=80&w=150', showCategory: true },
+            { id: 5, name: 'Plum POS Station Bundle', category: 'Plum POS Terminal (15.6") Hardware, Plum POS Subscription', today: 0.00, monthly: 99.99, img: 'https://images.unsplash.com/photo-1556740758-90de374c12ad?auto=format&fit=crop&q=80&w=150', showCategory: true },
+            { id: 6, name: 'Kitchen Printer Pro', category: 'Hardware', today: 0.00, monthly: 130.96, img: 'https://images.unsplash.com/photo-1610473068533-9e42e564d673?auto=format&fit=crop&q=80&w=150', showCategory: true }
+        ];
+
+        // Initial Cart State matching image perfectly
+        let cart = [
+            { ...products[0], quantity: 1 },
+            { ...products[1], quantity: 1 },
+            { ...products[2], quantity: 1 },
+            { ...products[3], quantity: 1 },
+            { ...products[4], quantity: 1 },
+            { ...products[5], quantity: 1 } 
+        ];
+
+        // Quote History State (Pre-populated with one initial mock quote matching the cart)
+        let quoteHistory = [
+            {
+                id: '0abf1d0f',
+                date: '03/30/2026',
+                items: JSON.parse(JSON.stringify(cart)), // Snapshot of initial cart
+                downPayment: 0.00,
+                shipping: 240.27,
+                tax: 0.00,
+                dueToday: 240.27,
+                monthly: 422.92,
+                status: 'approved'
+            }
+        ];
+
+        // UI Functions
+        function toggleModal(show) {
+            const modal = document.getElementById('product-modal');
+            if (show) {
+                modal.classList.remove('hidden');
+                renderAvailableProducts();
+            } else {
+                modal.classList.add('hidden');
+            }
+        }
+
+        function renderAvailableProducts() {
+            const container = document.getElementById('available-products');
+            container.innerHTML = products.map(p => `
+                <div class="bg-white border border-gray-200 rounded-xl p-4 flex items-center gap-4 hover:border-[#611C6B] hover:shadow-md transition-all group">
+                    <div class="w-[60px] h-[50px] bg-gray-100 rounded flex-shrink-0 overflow-hidden">
+                        <img src="${p.img}" alt="${p.name}" class="w-full h-full object-cover">
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <h4 class="font-semibold text-gray-900 text-sm truncate">${p.name}</h4>
+                        <div class="flex gap-3 mt-1.5">
+                            <span class="text-[11px] text-gray-500">Today: <span class="font-bold text-gray-900">$${p.today.toFixed(2)}</span></span>
+                            <span class="text-[11px] text-gray-500">Monthly: <span class="font-bold text-[#611C6B]">$${p.monthly.toFixed(2)}</span></span>
+                        </div>
+                    </div>
+                    <button onclick="addToCart(${p.id})" class="w-8 h-8 rounded-full bg-gray-100 text-gray-600 flex items-center justify-center hover:bg-[#611C6B] hover:text-white transition-colors">
+                        <i data-lucide="plus" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        function renderCart() {
+            const container = document.getElementById('cart-items');
+            
+            container.innerHTML = cart.map((item, index) => `
+                <div class="px-5 py-[14px] border-b border-gray-100 flex items-start gap-3 group bg-white">
+                    <div class="w-[38px] h-[32px] mt-0.5 bg-gray-100 rounded border border-gray-200 flex items-center justify-center overflow-hidden shrink-0">
+                        <img src="${item.img}" alt="${item.name}" class="w-full h-full object-cover grayscale opacity-80 mix-blend-multiply">
+                    </div>
+                    <div class="flex-1 min-w-0 pt-0.5">
+                        <div class="flex items-center gap-1.5">
+                            <h4 class="text-[13px] font-bold text-[#111111] leading-tight">${item.name}</h4>
+                            <i data-lucide="info" class="w-3.5 h-3.5 text-[#9CA3AF] cursor-pointer"></i>
+                        </div>
+                        ${item.showCategory ? `<p class="text-[11px] text-gray-500 leading-tight mt-0.5 w-[90%] truncate">${item.category}</p>` : ''}
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <div class="flex items-center border border-gray-200 rounded h-[22px] bg-white mt-0.5">
+                            <button onclick="updateQty(${index}, -1)" class="w-5 flex justify-center items-center text-gray-400 hover:bg-gray-50">-</button>
+                            <input type="number" class="w-5 text-center text-[12px] text-gray-700 bg-transparent border-none outline-none p-0" value="${item.quantity}" readonly>
+                            <button onclick="updateQty(${index}, 1)" class="w-5 flex justify-center items-center text-gray-400 hover:bg-gray-50">+</button>
+                        </div>
+                        <div class="text-right flex flex-col gap-0.5 min-w-[75px]">
+                            <div class="text-[10px] text-gray-400 flex justify-between gap-2">
+                                <span>Today</span>
+                                <span class="text-[#111111] font-bold text-[12px] leading-none mt-0.5">$${(item.today * item.quantity).toFixed(2)}</span>
+                            </div>
+                            <div class="text-[10px] text-gray-400 flex justify-between gap-2">
+                                <span>Monthly</span>
+                                <span class="text-[#111111] font-bold text-[12px] leading-none mt-0.5">$${(item.monthly * item.quantity).toFixed(2)}</span>
+                            </div>
+                        </div>
+                        <button onclick="removeFromCart(${index})" class="text-[#C1C1C1] hover:text-red-500 transition-colors mt-2">
+                            <i data-lucide="trash-2" class="w-[14px] h-[14px]"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+            
+            updateTotals();
+            lucide.createIcons();
+        }
+
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            const existing = cart.find(item => item.id === productId);
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+            renderCart();
+            toggleModal(false);
+        }
+
+        function updateQty(index, delta) {
+            cart[index].quantity += delta;
+            if (cart[index].quantity < 1) cart[index].quantity = 1;
+            renderCart();
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            renderCart();
+        }
+
+        function updateTotals() {
+            const todayTotal = cart.reduce((sum, item) => sum + (item.today * item.quantity), 0);
+            const monthlyTotal = cart.reduce((sum, item) => sum + (item.monthly * item.quantity), 0);
+            
+            document.getElementById('total-today').innerText = `$${todayTotal.toFixed(2)}`;
+            document.getElementById('total-monthly').innerText = `$${monthlyTotal.toFixed(2)}`;
+            document.getElementById('monthly-subtotal').innerText = `$${monthlyTotal.toFixed(2)}`;
+            document.getElementById('dp-subtotal').innerText = `$${todayTotal.toFixed(2)}`;
+        }
+
+        // --- BUTTON STATE LOGIC ---
+        function updateProposalButtonState() {
+            const btn = document.getElementById('proposal-btn');
+            const hasApprovedQuote = quoteHistory.some(q => q.status === 'approved');
+            
+            if (hasApprovedQuote) {
+                btn.disabled = false;
+                btn.className = "btn-slate text-white text-[11px] font-semibold py-2.5 rounded shadow-sm transition-colors";
+                btn.title = "Generate Proposal";
+            } else {
+                btn.disabled = true;
+                btn.className = "bg-gray-300 text-gray-500 cursor-not-allowed text-[11px] font-semibold py-2.5 rounded shadow-sm transition-colors";
+                btn.title = "Quote must be approved first";
+            }
+        }
+
+        // --- QUOTE LOGIC ---
+        
+        // Show Previous Quotes History Modal
+        function showPreviousQuotes() {
+            document.getElementById('quote-summary-modal').classList.add('hidden');
+            document.getElementById('quote-modal').classList.remove('hidden');
+            renderQuoteHistory();
+        }
+
+        function closeQuoteHistory() {
+            document.getElementById('quote-modal').classList.add('hidden');
+        }
+
+        // Quick download of the *current cart* quote
+        function downloadCurrentQuote() {
+            showToast(`Generating and downloading PDF for the current cart...`);
+        }
+
+        // Render the compact list of previously sent quotes
+        function renderQuoteHistory() {
+            const container = document.getElementById('quote-history-list');
+            if (quoteHistory.length === 0) {
+                container.innerHTML = `<div class="text-center py-8 text-gray-400 italic">No quotes sent yet.</div>`;
+                return;
+            }
+
+            container.innerHTML = quoteHistory.map(q => {
+                let statusBadge = '';
+                // Only show badge if approved, removing pending badge from UI
+                if (q.status === 'approved') statusBadge = '<span class="px-1.5 py-0.5 rounded text-[10px] bg-green-100 text-green-700 font-bold uppercase tracking-wider ml-2">Approved</span>';
+
+                return `
+                <div class="bg-white border border-gray-200 rounded-lg p-4 flex items-center justify-between hover:border-[#611C6B] transition-colors shadow-sm">
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-full bg-purple-50 flex items-center justify-center text-[#611C6B]">
+                            <i data-lucide="file-text" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-900 text-sm flex items-center">
+                                Quote #${q.id} ${statusBadge}
+                            </h4>
+                            <p class="text-xs text-gray-500 mt-0.5">Sent on ${q.date}</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-6">
+                        <div class="text-right hidden sm:block">
+                            <div class="text-[11px] text-gray-500">Total Monthly</div>
+                            <div class="font-bold text-[#611C6B] text-sm">$${q.monthly.toFixed(2)}</div>
+                        </div>
+                        <div class="flex items-center gap-2 border-l border-gray-100 pl-4">
+                            <button onclick="downloadHistoryQuote('${q.id}')" class="p-2 text-gray-400 hover:text-[#611C6B] hover:bg-purple-50 rounded transition-colors" title="Download Past Quote">
+                                <i data-lucide="download" class="w-4 h-4"></i>
+                            </button>
+                            <button onclick="openHistoryQuoteSummary('${q.id}')" class="p-2 text-gray-400 hover:text-[#611C6B] hover:bg-purple-50 rounded transition-colors" title="Resend Quote">
+                                <i data-lucide="mail" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `}).join('');
+            lucide.createIcons();
+        }
+
+        // Opens the New Quote Summary view for the *current cart*
+        function openNewQuoteSummary() {
+            const container = document.getElementById('quote-summary-content');
+            
+            const todayTotal = cart.reduce((sum, item) => sum + (item.today * item.quantity), 0);
+            const monthlyTotal = cart.reduce((sum, item) => sum + (item.monthly * item.quantity), 0);
+            const now = new Date();
+            const dateStr = `${String(now.getMonth() + 1).padStart(2, '0')}/${String(now.getDate()).padStart(2, '0')}/${now.getFullYear()}`;
+            const shipping = 240.27; // hardcoded based on prototype PDF reference
+
+            // Generate detailed view content matching requirements
+            container.innerHTML = `
+                <div class="p-5 border-b border-gray-100 flex justify-between items-center bg-white shrink-0">
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-900">Quote</h3>
+                        <p class="text-gray-500 text-sm mt-0.5">Review summary before sending to customer</p>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <button onclick="showPreviousQuotes()" class="flex items-center gap-1.5 text-sm font-semibold text-gray-700 bg-white hover:bg-gray-50 px-3 py-1.5 rounded-md transition-colors border border-gray-200 shadow-sm">
+                            <i data-lucide="list" class="w-4 h-4"></i> Previous Quotes
+                        </button>
+                        <button onclick="downloadCurrentQuote()" class="flex items-center gap-1.5 text-sm font-semibold text-[#611C6B] bg-purple-50 hover:bg-purple-100 px-3 py-1.5 rounded-md transition-colors border border-purple-100 shadow-sm">
+                            <i data-lucide="download" class="w-4 h-4"></i> Download Quote
+                        </button>
+                        <button onclick="closeQuoteSummary()" class="text-gray-400 hover:text-gray-800 transition-colors p-2 rounded-full hover:bg-gray-100">
+                            <i data-lucide="x" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="overflow-y-auto p-6 bg-gray-50 flex-1">
+                    <div class="bg-white border border-gray-200 rounded-xl p-8 shadow-sm max-w-xl mx-auto">
+                        <div class="flex justify-between items-center mb-8 border-b border-gray-100 pb-4">
+                            <h4 class="font-bold text-gray-900 text-lg">Order Details</h4>
+                            <span class="text-sm text-gray-500 font-medium">${dateStr}</span>
+                        </div>
+                        
+                        <!-- Line Items -->
+                        <div class="mb-8">
+                            ${cart.map(item => `
+                                <div class="mb-5">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <div class="font-bold text-[#2C3E50] text-[15px]">${item.name} <span class="text-gray-500 font-medium text-[14px]">(${item.quantity})</span></div>
+                                            ${item.showCategory && item.category ? `
+                                                <div class="text-[13px] text-gray-500 mt-0.5">${item.category}</div>
+                                            ` : ''}
+                                        </div>
+                                        <div class="text-right">
+                                            <div class="font-bold text-[#2C3E50] text-[14px]">$${(item.monthly * item.quantity).toFixed(2)}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+
+                        <!-- Summary Box -->
+                        <div class="border-t border-gray-100 pt-6 mb-8 mx-auto w-full max-w-[350px]">
+                            <div class="space-y-1.5 text-[14px]">
+                                <div class="flex justify-between items-center"><strong class="text-gray-900 font-bold">Monthly Subtotal:</strong> <span class="text-gray-600">$${monthlyTotal.toFixed(2)}</span></div>
+                                <div class="flex justify-between items-center"><strong class="text-gray-900 font-bold">Monthly Discount:</strong> <span class="text-gray-600">-$0.00</span></div>
+                                <div class="flex justify-between items-center"><strong class="text-gray-900 font-bold">Down Payment:</strong> <span class="text-gray-600">$${todayTotal.toFixed(2)}</span></div>
+                                <div class="flex justify-between items-center"><strong class="text-gray-900 font-bold">Shipping:</strong> <span class="text-gray-600">$${shipping.toFixed(2)}</span></div>
+                                <div class="flex justify-between items-center"><strong class="text-gray-900 font-bold">Tax:</strong> <span class="text-gray-600">$0.00</span></div>
+                                <div class="flex justify-between items-center mt-2 pt-2 border-t border-gray-100"><strong class="text-gray-900 font-bold">Due Today:</strong> <span class="bg-[#FDF28E] px-1.5 py-0.5 text-gray-900 font-bold">$${(todayTotal + shipping).toFixed(2)}</span></div>
+                            </div>
+                        </div>
+
+                        <!-- Stacked Action Button -->
+                        <div class="space-y-3">
+                            <button onclick="promptSendQuote()" class="w-full bg-[#4B5563] text-white text-[13px] font-semibold py-3.5 rounded-md hover:bg-[#374151] transition-colors shadow-sm">
+                                Send Quote
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            lucide.createIcons();
+            
+            // Switch Modals
+            document.getElementById('quote-modal').classList.add('hidden');
+            document.getElementById('quote-summary-modal').classList.remove('hidden');
+        }
+
+        // Opens the Quote Summary view for a *historical quote*
+        function openHistoryQuoteSummary(quoteId) {
+            const q = quoteHistory.find(item => item.id === quoteId);
+            if (!q) return;
+
+            let statusBadge = '';
+            // Only show badge if approved
+            if (q.status === 'approved') statusBadge = '<span class="px-2 py-0.5 rounded-md text-[11px] bg-green-100 text-green-700 font-bold uppercase tracking-wider ml-3 align-middle">Approved</span>';
+
+            const container = document.getElementById('quote-summary-content');
+            
+            // Generate detailed view content based on the historical snapshot
+            container.innerHTML = `
+                <div class="p-5 border-b border-gray-100 flex justify-between items-center bg-white shrink-0">
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-900 flex items-center">Quote #${q.id} ${statusBadge}</h3>
+                        <p class="text-gray-500 text-sm mt-0.5">Review summary before sending to customer</p>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <button onclick="showPreviousQuotes()" class="flex items-center gap-1.5 text-sm font-semibold text-gray-700 bg-white hover:bg-gray-50 px-3 py-1.5 rounded-md transition-colors border border-gray-200 shadow-sm">
+                            <i data-lucide="list" class="w-4 h-4"></i> Previous Quotes
+                        </button>
+                        <button onclick="downloadHistoryQuote('${q.id}')" class="flex items-center gap-1.5 text-sm font-semibold text-[#611C6B] bg-purple-50 hover:bg-purple-100 px-3 py-1.5 rounded-md transition-colors border border-purple-100 shadow-sm">
+                            <i data-lucide="download" class="w-4 h-4"></i> Download Quote
+                        </button>
+                        <button onclick="closeQuoteSummary()" class="text-gray-400 hover:text-gray-800 transition-colors p-2 rounded-full hover:bg-gray-100">
+                            <i data-lucide="x" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="overflow-y-auto p-6 bg-gray-50 flex-1">
+                    <div class="bg-white border border-gray-200 rounded-xl p-8 shadow-sm max-w-xl mx-auto">
+                        <div class="flex justify-between items-center mb-8 border-b border-gray-100 pb-4">
+                            <h4 class="font-bold text-gray-900 text-lg">Order Details</h4>
+                            <span class="text-sm text-gray-500 font-medium">${q.date}</span>
+                        </div>
+                        
+                        <!-- Line Items -->
+                        <div class="mb-8">
+                            ${q.items.map(item => `
+                                <div class="mb-5">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <div class="font-bold text-[#2C3E50] text-[15px]">${item.name} <span class="text-gray-500 font-medium text-[14px]">(${item.quantity})</span></div>
+                                            ${item.showCategory && item.category ? `
+                                                <div class="text-[13px] text-gray-500 mt-0.5">${item.category}</div>
+                                            ` : ''}
+                                        </div>
+                                        <div class="text-right">
+                                            <div class="font-bold text-[#2C3E50] text-[14px]">$${(item.monthly * item.quantity).toFixed(2)}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+
+                        <!-- Summary Box -->
+                        <div class="border-t border-gray-100 pt-6 mb-8 mx-auto w-full max-w-[350px]">
+                            <div class="space-y-1.5 text-[14px]">
+                                <div class="flex justify-between items-center"><strong class="text-gray-900 font-bold">Monthly Subtotal:</strong> <span class="text-gray-600">$${q.monthly.toFixed(2)}</span></div>
+                                <div class="flex justify-between items-center"><strong class="text-gray-900 font-bold">Monthly Discount:</strong> <span class="text-gray-600">-$0.00</span></div>
+                                <div class="flex justify-between items-center"><strong class="text-gray-900 font-bold">Down Payment:</strong> <span class="text-gray-600">$${q.downPayment.toFixed(2)}</span></div>
+                                <div class="flex justify-between items-center"><strong class="text-gray-900 font-bold">Shipping:</strong> <span class="text-gray-600">$${q.shipping.toFixed(2)}</span></div>
+                                <div class="flex justify-between items-center"><strong class="text-gray-900 font-bold">Tax:</strong> <span class="text-gray-600">$${q.tax.toFixed(2)}</span></div>
+                                <div class="flex justify-between items-center mt-2 pt-2 border-t border-gray-100"><strong class="text-gray-900 font-bold">Due Today:</strong> <span class="bg-[#FDF28E] px-1.5 py-0.5 text-gray-900 font-bold">$${q.dueToday.toFixed(2)}</span></div>
+                            </div>
+                        </div>
+
+                        <!-- Stacked Action Button -->
+                        <div class="space-y-3">
+                            <button onclick="promptResendQuote('${q.id}')" class="w-full bg-[#4B5563] text-white text-[13px] font-semibold py-3.5 rounded-md hover:bg-[#374151] transition-colors shadow-sm">
+                                Send Quote
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            lucide.createIcons();
+            
+            // Switch Modals
+            document.getElementById('quote-modal').classList.add('hidden');
+            document.getElementById('quote-summary-modal').classList.remove('hidden');
+        }
+
+        function closeQuoteSummary() {
+            document.getElementById('quote-summary-modal').classList.add('hidden');
+        }
+
+        // --- CONFIRMATION MODAL LOGIC ---
+        let pendingQuoteAction = null;
+
+        function promptSendQuote() {
+            pendingQuoteAction = () => sendFinalQuoteToCustomer();
+            document.getElementById('confirmation-modal').classList.remove('hidden');
+        }
+
+        function promptResendQuote(id) {
+            pendingQuoteAction = () => resendFinalQuoteToCustomer(id);
+            document.getElementById('confirmation-modal').classList.remove('hidden');
+        }
+
+        function confirmAction() {
+            if (pendingQuoteAction) {
+                pendingQuoteAction();
+            }
+            closeConfirmation();
+        }
+
+        function closeConfirmation() {
+            pendingQuoteAction = null;
+            document.getElementById('confirmation-modal').classList.add('hidden');
+        }
+
+        // --- MANAGER APPROVAL LOGIC ---
+        function openManagerModal() {
+            const pendingQuotes = quoteHistory.filter(q => q.status === 'pending');
+            const container = document.getElementById('manager-approvals-list');
+            
+            if (pendingQuotes.length === 0) {
+                container.innerHTML = `<div class="text-center py-6 text-gray-500 text-sm">No quotes pending approval.</div>`;
+            } else {
+                container.innerHTML = pendingQuotes.map(q => `
+                    <div class="bg-white border border-gray-200 rounded-lg p-4 flex items-center justify-between shadow-sm">
+                        <div>
+                            <h4 class="font-bold text-gray-900 text-sm">Quote #${q.id}</h4>
+                            <p class="text-xs text-gray-500 mt-0.5">Monthly: $${q.monthly.toFixed(2)} | Date: ${q.date}</p>
+                        </div>
+                        <button onclick="approveQuote('${q.id}')" class="bg-[#7AA641] text-white px-3 py-1.5 rounded-md text-xs font-bold hover:bg-[#658b36] transition-colors flex items-center gap-1.5">
+                            <i data-lucide="check" class="w-3.5 h-3.5"></i> Approve
+                        </button>
+                    </div>
+                `).join('');
+            }
+            document.getElementById('manager-modal').classList.remove('hidden');
+            lucide.createIcons();
+        }
+
+        function closeManagerModal() {
+            document.getElementById('manager-modal').classList.add('hidden');
+        }
+
+        function approveQuote(id) {
+            const q = quoteHistory.find(item => item.id === id);
+            if (q) {
+                q.status = 'approved';
+                showToast(`Quote #${id} approved successfully!`);
+                openManagerModal(); // Re-render manager list
+                renderQuoteHistory(); // Update background history UI
+                updateProposalButtonState(); // Update Proposal button availability
+            }
+        }
+
+        function showTopNotification() {
+            const notif = document.getElementById('top-notification');
+            notif.classList.remove('-translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                notif.classList.add('-translate-y-20', 'opacity-0');
+            }, 4000);
+        }
+
+        // Create the History Audit and send
+        function sendFinalQuoteToCustomer() {
+            const todayTotal = cart.reduce((sum, item) => sum + (item.today * item.quantity), 0);
+            const monthlyTotal = cart.reduce((sum, item) => sum + (item.monthly * item.quantity), 0);
+            const now = new Date();
+            const dateStr = `${String(now.getMonth() + 1).padStart(2, '0')}/${String(now.getDate()).padStart(2, '0')}/${now.getFullYear()}`;
+            const randomId = Math.random().toString(16).substring(2, 10);
+            const shipping = 240.27;
+
+            // Clear the status of all previous quotes when sending a new one
+            quoteHistory.forEach(q => {
+                q.status = '';
+            });
+
+            // Add sent quote to history audit as pending (hidden in UI, available for manager)
+            quoteHistory.unshift({
+                id: randomId,
+                date: dateStr,
+                items: JSON.parse(JSON.stringify(cart)),
+                downPayment: todayTotal,
+                shipping: shipping,
+                tax: 0.00,
+                dueToday: todayTotal + shipping,
+                monthly: monthlyTotal,
+                status: 'pending'
+            });
+
+            showTopNotification();
+            
+            // Refresh history UI and close modals to land on cart
+            renderQuoteHistory();
+            closeQuoteSummary();
+            updateProposalButtonState(); // Update Proposal button availability
+        }
+
+        function downloadHistoryQuote(id) {
+            showToast(`Downloading PDF for Quote #${id}...`);
+        }
+
+        function resendFinalQuoteToCustomer(id) {
+            const q = quoteHistory.find(item => item.id === id);
+            if(q && q.status !== 'approved') {
+                q.status = 'pending';
+            }
+            
+            showTopNotification();
+            
+            renderQuoteHistory();
+            closeQuoteSummary();
+            updateProposalButtonState(); // Update Proposal button availability
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-message').innerText = message;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+
+        // Initialize icons and render on load
+        window.onload = () => {
+            lucide.createIcons();
+            renderCart();
+            updateProposalButtonState(); // Set initial button state
+        };
+    </script>
+</body>
+</html>
